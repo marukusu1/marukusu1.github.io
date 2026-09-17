@@ -150,11 +150,12 @@
     border-radius:4px;
     flex:none;
   }
-  .group[data-cat="new"]   .tag{ background:var(--new-soft);     color:var(--new); }
-  .group[data-cat="ai"]    .tag{ background:var(--balance-soft); color:var(--balance); }
-  .group[data-cat="balance"] .tag{ background:var(--balance-soft); color:var(--balance); }
-  .group[data-cat="ui"]   .tag{ background:var(--ui-soft);      color:var(--ui); }
-  .group[data-cat="fix"]  .tag{ background:var(--fix-soft);     color:var(--fix); }
+  .group[data-cat="new"]    .tag{ background:var(--new-soft);     color:var(--new); }
+  .group[data-cat="ai"]     .tag{ background:var(--balance-soft); color:var(--balance); }
+  .group[data-cat="cards"]  .tag{ background:var(--balance-soft); color:var(--balance); }
+  .group[data-cat="items"]  .tag{ background:var(--balance-soft); color:var(--balance); }
+  .group[data-cat="ui"]     .tag{ background:var(--ui-soft);      color:var(--ui); }
+  .group[data-cat="fix"]    .tag{ background:var(--fix-soft);     color:var(--fix); }
 
   .group h2{
     font-family:'Fraunces', Georgia, serif;
@@ -218,6 +219,74 @@
   .roster b{ font-weight:600; }
   .roster span{ color:var(--muted); font-family:'IBM Plex Mono', monospace; font-size:12px;}
 
+  .subhead{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:26px 0 2px;
+  }
+  .subhead:first-child{ margin-top:0; }
+  .subnote{
+    color:var(--muted);
+    font-size:13px;
+    margin:0 0 10px;
+    max-width:64ch;
+  }
+
+  .statrows{ border-top:1px solid var(--border); }
+  .statrow{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:6px 16px;
+    padding:9px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .statrow .name{
+    font-weight:600;
+    font-size:14px;
+    flex:1 1 auto;
+    min-width:150px;
+  }
+  .statrow .name small{
+    display:block;
+    font-weight:400;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:1px;
+  }
+  .statrow .vals{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    flex:0 0 auto;
+  }
+
+  .pill-new{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--new);
+    background:var(--new-soft);
+    padding:1px 6px;
+    border-radius:4px;
+    margin-left:6px;
+    vertical-align:1px;
+  }
+
+  .cardlist{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.7;
+    margin:8px 0 0;
+  }
+  .cardlist b{ color:var(--ink); font-weight:600; }
+
   footer{
     margin-top:48px;
     padding-top:20px;
@@ -235,7 +304,7 @@
 <div class="page">
 
   <div class="masthead">
-    <div class="eyebrow">Tatical MMO</div>
+    <div class="eyebrow">MMO Sandbox Tático de Cartas · Season 1</div>
     <h1>Cooldowns &amp; Swarms</h1>
     <p class="dek">Patch notes for <em>September 16</em>. Enemies stopped shuffling a deck and started thinking; monster swarms, a player market, and a new hub join the world.</p>
     <div class="highlights">
@@ -278,7 +347,8 @@
       </div>
       <div class="entry">
         <div class="lead">Slime Princess &amp; enraged Goblin Leader kits reworked</div>
-        <div class="body">Both bosses' summons and finishers now arrive on a fixed schedule under the new cooldown system, instead of the old "pull a random card if you've gone a while without one" logic.</div>
+        <div class="body">Both bosses' summons and finishers now arrive on a fixed schedule under the new cooldown system, instead of the old "pull a random card if you've gone a while without one" logic. Her group-wide cry for help also rallies the slime family harder now.</div>
+        <div class="stat">Please Help Me rally <span class="arrow">×1 →</span> ×2</div>
       </div>
     </div>
   </section>
@@ -301,10 +371,6 @@
         <div class="body">List gear for other players to buy, or trade directly with someone in your party. The market takes a 5% listing fee up front (whether it sells or not) and an 8% cut on completed sales — both gold sinks, neither paid to another player.</div>
       </div>
       <div class="entry">
-        <div class="lead">Two new reptiles prowl the desert</div>
-        <div class="body">The Reptile Monk and Reptile Mage join the Soldier and Spearman, filling out the swarm's escalating waves and the wider Forsaken Sands roster.</div>
-      </div>
-      <div class="entry">
         <div class="lead">Fenwatch, a new hub, and a reshuffled world map</div>
         <div class="body">Maps were reflowed around Fenwatch, a new town between Millhaven and the desert. The world map now scrolls, and every area you've visited shows a suggested level right on its tile.</div>
       </div>
@@ -315,23 +381,113 @@
     </div>
   </section>
 
-  <section class="group" data-cat="balance">
-    <div class="group-head"><span class="tag">Balance</span></div>
-    <h2>Swordsman down, caster kit up</h2>
-    <div class="entries">
-      <div class="entry">
-        <div class="lead">Swordsman's finisher toned down</div>
-        <div class="body"><strong>Coup de Grâce</strong> was hitting too hard for a 1-AP card that dumps your whole turn into it.</div>
-        <div class="stat">Weapon% <span class="arrow">60% →</span> 40%</div>
-        <div class="stat">HP growth/lvl <span class="arrow">12% →</span> 11%</div>
+  <section class="group" data-cat="cards">
+    <div class="group-head"><span class="tag">Cards</span></div>
+    <h2>Card changes, class by class</h2>
+    <p class="sub">Split out by who actually owns each card — several of these live on gear, not on a class, so anyone wearing that piece feels the change.</p>
+
+    <div class="subhead">Swordsman</div>
+    <div class="statrows">
+      <div class="statrow">
+        <div class="name">Coup de Grâce<small>All-AP finishing strike</small></div>
+        <div class="vals"><span class="stat">Weapon% <span class="arrow">60 →</span> 40</span></div>
       </div>
-      <div class="entry">
-        <div class="lead">Caster and Enchanter pass</div>
-        <div class="body">Weaken debuffs hit harder, barrier spells now scale with your Max HP instead of a flat number (so they keep pace as you level), and Orb weapons trade raw weapon damage for more Intelligence. Two new cards join the caster kit: <strong>Cursed Sparkles</strong> and <strong>Step While Studying</strong>.</div>
-        <div class="stat">Weaken magnitude <span class="arrow">5 →</span> 8</div>
-        <div class="stat">Barrier scaling <span class="arrow">flat →</span> Max HP %</div>
+      <div class="statrow">
+        <div class="name">HP growth per level<small>Class stat, not a card</small></div>
+        <div class="vals"><span class="stat">12% <span class="arrow">→</span> 11%</span></div>
       </div>
     </div>
+
+    <div class="subhead">Enchanter</div>
+    <div class="statrows">
+      <div class="statrow">
+        <div class="name">Weaken / Siphon Strength / Lingering Curse<small>All three apply the same debuff, so all three got stronger together</small></div>
+        <div class="vals"><span class="stat">Weaken magnitude <span class="arrow">5 →</span> 8</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">Cursed Sparkles<span class="pill-new">New</span><small>Now the basic attack granted by every Orb — replaces Sparkles</small></div>
+        <div class="vals"><span class="stat">85% Int, Arcane <span class="arrow">+</span> Weaken stack</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">Step While Studying<span class="pill-new">New</span><small>Granted by the new Academic Boots (see Items)</small></div>
+        <div class="vals"><span class="stat">Draw a card <span class="arrow">+</span> 1 MP</span></div>
+      </div>
+    </div>
+
+    <div class="subhead">Gear-granted (any class can use these)</div>
+    <p class="subnote">These four aren't Enchanter cards — they come off armor, boots, and trinkets, so whoever's wearing that slot gets them, regardless of class.</p>
+    <div class="statrows">
+      <div class="statrow">
+        <div class="name">Iron Skin<small>Barrier, e.g. Chainmail, Iron Helm, Slime Core Pendant</small></div>
+        <div class="vals"><span class="stat">Flat +3 <span class="arrow">→</span> 15% Max HP</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">Stone Skin<small>Barrier, e.g. Knight Plate, Shaman Robes, Bog Pearl</small></div>
+        <div class="vals"><span class="stat">Flat +6 <span class="arrow">→</span> 30% Max HP</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">Second Wind<small>Self-heal, e.g. Bog Leather Coat, Bog Charm, Princess Ribbon</small></div>
+        <div class="vals"><span class="stat">25% <span class="arrow">→</span> 30% Max HP</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">War Leap<small>Gap closer, e.g. Goblin Sprinters, Frogskin Boots, Warren Runners</small></div>
+        <div class="vals"><span class="stat">Can now target <span class="arrow">any tile,</span> not just an enemy</span></div>
+      </div>
+    </div>
+
+    <div class="subhead">Consumables</div>
+    <div class="statrows">
+      <div class="statrow">
+        <div class="name">Fire Flask<small>Burn DoT</small></div>
+        <div class="vals"><span class="stat">Burn <span class="arrow">25 →</span> 50</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">Smoke Bomb<small>Weaken debuff</small></div>
+        <div class="vals"><span class="stat">Weakened <span class="arrow">25 →</span> 30</span></div>
+      </div>
+      <div class="statrow">
+        <div class="name">Bark Tea<small>Same barrier rework as Iron Skin/Stone Skin</small></div>
+        <div class="vals"><span class="stat">Flat +5 <span class="arrow">→</span> 25% Max HP</span></div>
+      </div>
+    </div>
+
+    <div class="subhead">New: the desert's reptile kit<span class="pill-new">New</span></div>
+    <p class="cardlist">
+      Twelve new cards arrived with the reptile family's new members and the Reptile Swarm event:
+      <b>Scale Slam</b>, <b>Sand Shield Bash</b>, <b>Desert Guard</b>, <b>Spear Toss</b>, <b>Sunfire Spear</b>,
+      <b>Brace Stance</b>, <b>Twin Fang Strike</b>, <b>Venom Palm</b>, <b>Coiling Stance</b>, <b>Sand Bolt</b>,
+      <b>Scorching Orb</b>, and <b>Mirage Ward</b>.
+    </p>
+  </section>
+
+  <section class="group" data-cat="items">
+    <div class="group-head"><span class="tag">Items &amp; Weapons</span></div>
+    <h2>Orbs rebuilt, blades sharpened</h2>
+
+    <div class="subhead">Orb weapons (Enchanter) — full rework</div>
+    <p class="subnote">Every tier of Orb, from Glass Orb up to Stolen Orb, had its weapon damage zeroed out and its Intelligence bonus raised to make up for it — Orbs now push damage entirely through spells and Intelligence, not weapon hits. Each one's granted basic attack was also swapped from Sparkles to the new Cursed Sparkles.</p>
+    <div class="statrows">
+      <div class="statrow"><div class="name">Glass, Pocket, Crystal, Clay, Amber Orbs</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span></div></div>
+      <div class="statrow"><div class="name">Moonstone Orb</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span><span class="stat">No longer two-handed</span></div></div>
+      <div class="statrow"><div class="name">Ember, Bog Pearl, Mirror, Goblin Trinket, Sunwell Orbs</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span><span class="stat">Int <span class="arrow">up</span></span></div></div>
+      <div class="statrow"><div class="name">Cursed Orb, Shaman Totem Orb, Stolen Orb</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span><span class="stat">Int <span class="arrow">up further</span></span></div></div>
+    </div>
+
+    <div class="subhead">Melee &amp; ranged weapons — retuned</div>
+    <p class="subnote">Several tiered weapons traded a secondary attribute bonus for more raw weapon damage — simpler, less stat-stacky.</p>
+    <div class="statrows">
+      <div class="statrow"><div class="name">Goblin Scimitar<small>lost +1 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">9 →</span> 10</span></div></div>
+      <div class="statrow"><div class="name">Frog Fang Blade<small>lost +1 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">11 →</span> 12</span></div></div>
+      <div class="statrow"><div class="name">Dune Falchion<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">10 →</span> 12</span></div></div>
+      <div class="statrow"><div class="name">Sunfire Arbalest<small>lost +1 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">9 →</span> 11</span></div></div>
+      <div class="statrow"><div class="name">Sunforged Blade<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">12 →</span> 14</span></div></div>
+      <div class="statrow"><div class="name">Shrine Greatsword<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">13 →</span> 15</span></div></div>
+      <div class="statrow"><div class="name">Warren Saber<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">15 →</span> 17</span></div></div>
+      <div class="statrow"><div class="name">Rusty Cleaver<small>lost +1 Strength, no damage change</small></div><div class="vals"><span class="stat">No compensation</span></div></div>
+    </div>
+
+    <div class="subhead">New: Academic Boots<span class="pill-new">New</span></div>
+    <p class="subnote">A level-3 boots item (+1 Intelligence, a touch of Resist) that grants Step While Studying — a cheap early card draw for casters.</p>
   </section>
 
   <section class="group" data-cat="ui">
