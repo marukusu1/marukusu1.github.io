@@ -1,535 +1,249 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cooldowns & Swarms</title>
+<title>Nihil: Origins — Patch Notes</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
   :root{
-    color-scheme: light dark;
-    --bg:#f1efe7;
-    --surface:#fbfaf6;
-    --ink:#211e17;
-    --muted:#6f6857;
-    --border:#ddd6c4;
-    --accent:#9c6a1f;
-    --accent-soft:#f2e2bf;
-    --new:#3f6b48;
-    --new-soft:#dde9dd;
-    --balance:#a34a1f;
-    --balance-soft:#f3ddce;
-    --ui:#3c5f80;
-    --ui-soft:#dbe6ee;
-    --fix:#8c3b4a;
-    --fix-soft:#f0dade;
-    --shadow: 0 1px 0 rgba(33,30,23,0.05);
-  }
-
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#1a1813;
-      --surface:#221f18;
-      --ink:#ece6d7;
-      --muted:#a79d87;
-      --border:#3a3527;
-      --accent:#dba43f;
-      --accent-soft:#3a3021;
-      --new:#7fb086;
-      --new-soft:#2a3a2b;
-      --balance:#d98a5a;
-      --balance-soft:#3d2c22;
-      --ui:#8fb4d6;
-      --ui-soft:#26333f;
-      --fix:#d98a97;
-      --fix-soft:#3a262a;
-      --shadow: 0 1px 0 rgba(0,0,0,0.2);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#1a1813;
-    --surface:#221f18;
-    --ink:#ece6d7;
-    --muted:#a79d87;
-    --border:#3a3527;
-    --accent:#dba43f;
-    --accent-soft:#3a3021;
-    --new:#7fb086;
-    --new-soft:#2a3a2b;
-    --balance:#d98a5a;
-    --balance-soft:#3d2c22;
-    --ui:#8fb4d6;
-    --ui-soft:#26333f;
-    --fix:#d98a97;
-    --fix-soft:#3a262a;
-    --shadow: 0 1px 0 rgba(0,0,0,0.2);
+    --void:#0a0b0f;
+    --surface:#14151c;
+    --surface-hover:#191a23;
+    --ink:#ece7de;
+    --ink-dim:#9791a1;
+    --ink-faint:#615c6a;
+    --arcane:#a487e6;
+    --arcane-soft:#a487e622;
+    --ember:#dd8a56;
+    --line:#26272f;
   }
 
   *{box-sizing:border-box;}
+  html{color-scheme:dark;}
   body{
     margin:0;
-    background:var(--bg);
+    background:var(--void);
     color:var(--ink);
-    font-family:'Public Sans', ui-sans-serif, system-ui, sans-serif;
-    padding:0 20px;
-    line-height:1.55;
-  }
-  .page{
-    max-width:720px;
-    margin:0 auto;
-    padding-block: 56px 80px;
-  }
-
-  h1,h2{ text-wrap:balance; }
-
-  .masthead{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    padding-bottom:28px;
-    border-bottom:1px solid var(--border);
-    margin-bottom:36px;
-  }
-  .eyebrow{
-    font-family:'IBM Plex Mono', ui-monospace, monospace;
-    font-size:12.5px;
-    letter-spacing:.09em;
-    text-transform:uppercase;
-    color:var(--accent);
-    font-weight:600;
-  }
-  h1{
-    font-family:'Fraunces', Georgia, serif;
-    font-weight:600;
-    font-size:clamp(32px, 6vw, 46px);
-    margin:2px 0 0;
-    letter-spacing:-0.01em;
-  }
-  .dek{
-    color:var(--muted);
+    font-family:'Work Sans',ui-sans-serif,system-ui,sans-serif;
     font-size:16px;
-    max-width:56ch;
-    margin-top:2px;
+    line-height:1.65;
+    padding:clamp(28px,7vw,72px) 20px 100px;
   }
-  .dek em{ color:var(--ink); font-style:italic; }
 
-  .highlights{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:18px;
+  h1,h2{text-wrap:balance;}
+
+  .page{max-width:700px;margin:0 auto;}
+
+  .hero{
+    text-align:center;
+    padding-bottom:40px;
+    margin-bottom:48px;
+    border-bottom:1px solid var(--line);
+    position:relative;
   }
-  .chip{
+  .sigil{margin:0 auto 22px;width:56px;height:56px;position:relative;display:block;}
+  .sigil svg{width:100%;height:100%;display:block;}
+  .sigil::before{
+    content:"";
+    position:absolute;
+    inset:-26px;
+    background:radial-gradient(circle,var(--arcane-soft) 0%,transparent 70%);
+    animation:breathe 5s ease-in-out infinite;
+    z-index:-1;
+  }
+  @media (prefers-reduced-motion:reduce){.sigil::before{animation:none;}}
+  @keyframes breathe{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
     font-size:12.5px;
-    font-weight:600;
-    padding:6px 12px;
-    border-radius:999px;
-    background:var(--accent-soft);
-    color:var(--accent);
-    border:1px solid transparent;
-    white-space:nowrap;
-  }
-
-  section.group{
-    margin-bottom:40px;
-  }
-  .group-head{
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-    margin-bottom:4px;
-  }
-  .tag{
-    font-family:'IBM Plex Mono', ui-monospace, monospace;
-    font-size:11.5px;
-    font-weight:600;
-    letter-spacing:.08em;
+    letter-spacing:.16em;
     text-transform:uppercase;
-    padding:3px 8px;
-    border-radius:4px;
-    flex:none;
+    color:var(--arcane);
+    margin:0 0 14px;
   }
-  .group[data-cat="new"]    .tag{ background:var(--new-soft);     color:var(--new); }
-  .group[data-cat="ai"]     .tag{ background:var(--balance-soft); color:var(--balance); }
-  .group[data-cat="cards"]  .tag{ background:var(--balance-soft); color:var(--balance); }
-  .group[data-cat="items"]  .tag{ background:var(--balance-soft); color:var(--balance); }
-  .group[data-cat="ui"]     .tag{ background:var(--ui-soft);      color:var(--ui); }
-  .group[data-cat="fix"]    .tag{ background:var(--fix-soft);     color:var(--fix); }
-
-  .group h2{
-    font-family:'Fraunces', Georgia, serif;
-    font-weight:600;
-    font-size:22px;
-    margin:0;
-  }
-  .group > .sub{
-    color:var(--muted);
-    font-size:14.5px;
-    margin:6px 0 18px;
-    max-width:64ch;
-  }
-
-  .entries{
-    border-top:1px solid var(--border);
-  }
-  .entry{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    padding:16px 0;
-    border-bottom:1px solid var(--border);
-  }
-  .entry .lead{
+  .title{
+    font-family:'Cinzel',serif;
     font-weight:700;
-    font-size:15.5px;
-  }
-  .entry .body{
-    color:var(--muted);
-    font-size:14.5px;
-    max-width:64ch;
-  }
-  .entry .body strong{ color:var(--ink); font-weight:600; }
-
-  .stat{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    font-family:'IBM Plex Mono', ui-monospace, monospace;
-    font-variant-numeric: tabular-nums;
-    font-size:12.5px;
-    font-weight:600;
-    background:var(--surface);
-    border:1px solid var(--border);
-    padding:2px 8px;
-    border-radius:5px;
+    font-size:clamp(30px,6vw,42px);
+    letter-spacing:.02em;
+    margin:0 0 12px;
     color:var(--ink);
-    box-shadow:var(--shadow);
   }
-  .stat .arrow{ color:var(--muted); }
-
-  .roster{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
-    gap:8px 16px;
-    margin-top:14px;
-    font-size:13.5px;
-  }
-  .roster div{ display:flex; justify-content:space-between; gap:8px; border-bottom:1px dashed var(--border); padding-bottom:4px;}
-  .roster b{ font-weight:600; }
-  .roster span{ color:var(--muted); font-family:'IBM Plex Mono', monospace; font-size:12px;}
-
-  .subhead{
-    font-family:'IBM Plex Mono', ui-monospace, monospace;
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin:26px 0 2px;
-  }
-  .subhead:first-child{ margin-top:0; }
-  .subnote{
-    color:var(--muted);
-    font-size:13px;
-    margin:0 0 10px;
-    max-width:64ch;
+  .subtitle{
+    color:var(--ink-dim);
+    font-size:15.5px;
+    margin:0 auto;
+    max-width:480px;
   }
 
-  .statrows{ border-top:1px solid var(--border); }
-  .statrow{
+  .list-head{
     display:flex;
-    flex-wrap:wrap;
     align-items:baseline;
     justify-content:space-between;
-    gap:6px 16px;
-    padding:9px 0;
-    border-bottom:1px solid var(--border);
+    gap:12px;
+    margin-bottom:20px;
   }
-  .statrow .name{
+  .list-head h2{
+    font-family:'Cinzel',serif;
     font-weight:600;
-    font-size:14px;
-    flex:1 1 auto;
-    min-width:150px;
+    font-size:15px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin:0;
   }
-  .statrow .name small{
-    display:block;
-    font-weight:400;
-    color:var(--muted);
-    font-size:12px;
-    margin-top:1px;
-  }
-  .statrow .vals{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    flex:0 0 auto;
+  .list-head .count{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
   }
 
-  .pill-new{
+  .patch-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .patch-card{
+    display:block;
+    border:1px solid var(--line);
+    background:var(--surface);
+    border-radius:6px;
+    padding:22px 24px;
+    text-decoration:none;
+    color:inherit;
+    transition:border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .patch-card:hover{
+    border-color:var(--arcane);
+    background:var(--surface-hover);
+    transform:translateY(-1px);
+  }
+  .patch-card:first-child{
+    border-color:var(--arcane);
+  }
+  .patch-top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:8px;
+  }
+  .patch-date{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    letter-spacing:.05em;
+    color:var(--ink-faint);
+  }
+  .patch-latest{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
     font-size:10px;
     font-weight:700;
-    letter-spacing:.05em;
+    letter-spacing:.08em;
     text-transform:uppercase;
-    color:var(--new);
-    background:var(--new-soft);
-    padding:1px 6px;
+    color:var(--arcane);
+    background:var(--arcane-soft);
+    padding:2px 8px;
     border-radius:4px;
-    margin-left:6px;
-    vertical-align:1px;
   }
-
-  .cardlist{
-    font-size:13px;
-    color:var(--muted);
-    line-height:1.7;
-    margin:8px 0 0;
+  .patch-title{
+    font-family:'Cinzel',serif;
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:.01em;
+    color:var(--ink);
+    margin:0 0 8px;
   }
-  .cardlist b{ color:var(--ink); font-weight:600; }
+  .patch-blurb{
+    color:var(--ink-dim);
+    font-size:14px;
+    margin:0 0 14px;
+    max-width:60ch;
+  }
+  .patch-tags{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+  }
+  .tag{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:10.5px;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ink-faint);
+  }
 
   footer{
-    margin-top:48px;
-    padding-top:20px;
-    border-top:1px solid var(--border);
-    color:var(--muted);
-    font-size:13px;
-  }
-
-  @media (max-width:480px){
-    .page{ padding-block:40px 60px; }
+    margin-top:60px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    letter-spacing:.03em;
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <div class="masthead">
-    <div class="eyebrow">MMO Sandbox Tático de Cartas · Season 1</div>
-    <h1>Cooldowns &amp; Swarms</h1>
-    <p class="dek">Patch notes for <em>September 16</em>. Enemies stopped shuffling a deck and started thinking; monster swarms, a player market, and a new hub join the world.</p>
-    <div class="highlights">
-      <span class="chip">Enemy AI rework</span>
-      <span class="chip">Monster Swarms</span>
-      <span class="chip">Player Market</span>
-      <span class="chip">New hub: Fenwatch</span>
-      <span class="chip">Level cap 35</span>
+  <div class="hero">
+    <div class="sigil">
+      <svg viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#a487e6" stroke-width="1" opacity="0.5"/>
+        <circle cx="32" cy="32" r="3.2" fill="#a487e6"/>
+        <path d="M32 2 V16 M32 48 V62 M2 32 H16 M48 32 H62" stroke="#a487e6" stroke-width="1" opacity="0.7"/>
+        <path d="M32 32 L50 14 M32 32 L14 50" stroke="#dd8a56" stroke-width="1" opacity="0.6"/>
+      </svg>
     </div>
+    <p class="eyebrow">Nihil: Origins</p>
+    <h1 class="title">Patch Notes</h1>
+    <p class="subtitle">Todo aviso de atualização do servidor, do mais recente ao mais antigo — reformulações de classe, novidades e correções.</p>
   </div>
 
-  <section class="group" data-cat="ai">
-    <div class="group-head"><span class="tag">Enemy AI</span></div>
-    <h2>Enemies got a brain</h2>
-    <p class="sub">The old system gave every enemy a tiny 6-card deck it drew from — meaning it saw its whole kit by turn one anyway. That's gone, replaced by a kit of moves on individual cooldowns, plus real targeting logic.</p>
-    <div class="entries">
-      <div class="entry">
-        <div class="lead">No more "random" draw — enemies now run a readable rotation</div>
-        <div class="body">Every enemy's whole kit is always available; each move is gated by its own cooldown instead of a shared deck. Expect the filler attack most turns, the secondary every couple of turns, and the signature move landing on a schedule instead of whenever it happened to be drawn.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">Fixed the back-and-forth pacing bug</div>
-        <div class="body">When two players stood near an enemy, it used to flip-flop which one it walked toward every turn. Enemies now commit to a target and only reconsider once that target has wandered far away <strong>and</strong> someone else is clearly closer.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">Four targeting personalities, assigned per enemy</div>
-        <div class="body">
-          <strong>Confused</strong> — mindless things (slimes, a green novice) just retaliate against whoever hit them last.<br>
-          <strong>Intelligent</strong> — every archer and caster now focuses whoever's dealt it the most damage.<br>
-          <strong>Lock-in</strong> — guards and warlords commit to one target until it dies, full stop.<br>
-          <strong>Closest</strong> — everyone else presses the nearest real threat, the fixed version of the old default.
-        </div>
-      </div>
-      <div class="entry">
-        <div class="lead">Goblin Leader hits harder and shrugs off more</div>
-        <div class="body">The Deep Woods boss is tougher across the board.</div>
-        <div class="stat">HP <span class="arrow">160 →</span> 200</div>
-        <div class="stat">Weapon dmg <span class="arrow">12 →</span> 13</div>
-        <div class="stat">New: Resist <span class="arrow">+3 flat, +10%</span></div>
-      </div>
-      <div class="entry">
-        <div class="lead">Slime Princess &amp; enraged Goblin Leader kits reworked</div>
-        <div class="body">Both bosses' summons and finishers now arrive on a fixed schedule under the new cooldown system, instead of the old "pull a random card if you've gone a while without one" logic. Her group-wide cry for help also rallies the slime family harder now.</div>
-        <div class="stat">Please Help Me rally <span class="arrow">×1 →</span> ×2</div>
-      </div>
-    </div>
-  </section>
+  <div class="list-head">
+    <h2>Registro de atualizações</h2>
+    <span class="count">2 NOTAS</span>
+  </div>
 
-  <section class="group" data-cat="new">
-    <div class="group-head"><span class="tag">New</span></div>
-    <h2>Monster Swarms, the Market, and Fenwatch</h2>
-    <div class="entries">
-      <div class="entry">
-        <div class="lead">Monster Swarms — a wave-defense portal on three maps</div>
-        <div class="body">A swarm portal opens periodically on the Drowned Shrine, Warren Throne, and (new) Forsaken Sands maps. Step in and fight through escalating waves, one every few turns — survive them all for a large gold and XP bonus. The portal then closes for a while before it can be triggered again.</div>
-        <div class="roster">
-          <div><b>Swamp Swarm</b><span>frogmen · 6 waves</span></div>
-          <div><b>Ratmen Swarm</b><span>warren · 7 waves</span></div>
-          <div><b>Reptile Swarm</b><span>desert · 7 waves</span></div>
-        </div>
+  <div class="patch-list">
+    <a class="patch-card" href="patch-notes/2026-09-18-nihil-dispatch.html">
+      <div class="patch-top">
+        <span class="patch-date">18 SET 2026</span>
+        <span class="patch-latest">Mais recente</span>
       </div>
-      <div class="entry">
-        <div class="lead">Player Market &amp; direct trading</div>
-        <div class="body">List gear for other players to buy, or trade directly with someone in your party. The market takes a 5% listing fee up front (whether it sells or not) and an 8% cut on completed sales — both gold sinks, neither paid to another player.</div>
+      <h3 class="patch-title">The Nihil Dispatch</h3>
+      <p class="patch-blurb">O jogo ganha nome oficial — Nihil: Origins. Magiconverter e sets de equipamento, menu de opções, localização em pt-BR, reformulação de 21 cartas de Swordsman e Enchanter, e mais.</p>
+      <div class="patch-tags">
+        <span class="tag">NOVIDADES</span>
+        <span class="tag">REFORMULAÇÕES</span>
+        <span class="tag">BALANCEAMENTO</span>
+        <span class="tag">CORREÇÕES</span>
       </div>
-      <div class="entry">
-        <div class="lead">Fenwatch, a new hub, and a reshuffled world map</div>
-        <div class="body">Maps were reflowed around Fenwatch, a new town between Millhaven and the desert. The world map now scrolls, and every area you've visited shows a suggested level right on its tile.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">Season 1 level cap: 35</div>
-        <div class="body">Characters cap out at level 35 for now. XP earned past the cap simply isn't wasted chasing a bar that won't move — it's discarded instead of piling up uselessly.</div>
-      </div>
-    </div>
-  </section>
+    </a>
 
-  <section class="group" data-cat="cards">
-    <div class="group-head"><span class="tag">Cards</span></div>
-    <h2>Card changes, class by class</h2>
-    <p class="sub">Split out by who actually owns each card — several of these live on gear, not on a class, so anyone wearing that piece feels the change.</p>
-
-    <div class="subhead">Swordsman</div>
-    <div class="statrows">
-      <div class="statrow">
-        <div class="name">Coup de Grâce<small>All-AP finishing strike</small></div>
-        <div class="vals"><span class="stat">Weapon% <span class="arrow">60 →</span> 40</span></div>
+    <a class="patch-card" href="patch-notes/2026-09-16-cooldowns-and-swarms.html">
+      <div class="patch-top">
+        <span class="patch-date">16 SET 2026</span>
       </div>
-      <div class="statrow">
-        <div class="name">HP growth per level<small>Class stat, not a card</small></div>
-        <div class="vals"><span class="stat">12% <span class="arrow">→</span> 11%</span></div>
+      <h3 class="patch-title">Cooldowns &amp; Swarms</h3>
+      <p class="patch-blurb">Inimigos passam a usar cooldowns em vez de um baralho aleatório, chegam os Monster Swarms, o Mercado de jogadores e o novo hub Fenwatch. Nível máximo da Season 1: 35.</p>
+      <div class="patch-tags">
+        <span class="tag">ENEMY AI</span>
+        <span class="tag">NOVIDADES</span>
+        <span class="tag">CARTAS</span>
+        <span class="tag">UI</span>
       </div>
-    </div>
-
-    <div class="subhead">Enchanter</div>
-    <div class="statrows">
-      <div class="statrow">
-        <div class="name">Weaken / Siphon Strength / Lingering Curse<small>All three apply the same debuff, so all three got stronger together</small></div>
-        <div class="vals"><span class="stat">Weaken magnitude <span class="arrow">5 →</span> 8</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">Cursed Sparkles<span class="pill-new">New</span><small>Now the basic attack granted by every Orb — replaces Sparkles</small></div>
-        <div class="vals"><span class="stat">85% Int, Arcane <span class="arrow">+</span> Weaken stack</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">Step While Studying<span class="pill-new">New</span><small>Granted by the new Academic Boots (see Items)</small></div>
-        <div class="vals"><span class="stat">Draw a card <span class="arrow">+</span> 1 MP</span></div>
-      </div>
-    </div>
-
-    <div class="subhead">Gear-granted (any class can use these)</div>
-    <p class="subnote">These four aren't Enchanter cards — they come off armor, boots, and trinkets, so whoever's wearing that slot gets them, regardless of class.</p>
-    <div class="statrows">
-      <div class="statrow">
-        <div class="name">Iron Skin<small>Barrier, e.g. Chainmail, Iron Helm, Slime Core Pendant</small></div>
-        <div class="vals"><span class="stat">Flat +3 <span class="arrow">→</span> 15% Max HP</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">Stone Skin<small>Barrier, e.g. Knight Plate, Shaman Robes, Bog Pearl</small></div>
-        <div class="vals"><span class="stat">Flat +6 <span class="arrow">→</span> 30% Max HP</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">Second Wind<small>Self-heal, e.g. Bog Leather Coat, Bog Charm, Princess Ribbon</small></div>
-        <div class="vals"><span class="stat">25% <span class="arrow">→</span> 30% Max HP</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">War Leap<small>Gap closer, e.g. Goblin Sprinters, Frogskin Boots, Warren Runners</small></div>
-        <div class="vals"><span class="stat">Can now target <span class="arrow">any tile,</span> not just an enemy</span></div>
-      </div>
-    </div>
-
-    <div class="subhead">Consumables</div>
-    <div class="statrows">
-      <div class="statrow">
-        <div class="name">Fire Flask<small>Burn DoT</small></div>
-        <div class="vals"><span class="stat">Burn <span class="arrow">25 →</span> 50</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">Smoke Bomb<small>Weaken debuff</small></div>
-        <div class="vals"><span class="stat">Weakened <span class="arrow">25 →</span> 30</span></div>
-      </div>
-      <div class="statrow">
-        <div class="name">Bark Tea<small>Same barrier rework as Iron Skin/Stone Skin</small></div>
-        <div class="vals"><span class="stat">Flat +5 <span class="arrow">→</span> 25% Max HP</span></div>
-      </div>
-    </div>
-
-    <div class="subhead">New: the desert's reptile kit<span class="pill-new">New</span></div>
-    <p class="cardlist">
-      Twelve new cards arrived with the reptile family's new members and the Reptile Swarm event:
-      <b>Scale Slam</b>, <b>Sand Shield Bash</b>, <b>Desert Guard</b>, <b>Spear Toss</b>, <b>Sunfire Spear</b>,
-      <b>Brace Stance</b>, <b>Twin Fang Strike</b>, <b>Venom Palm</b>, <b>Coiling Stance</b>, <b>Sand Bolt</b>,
-      <b>Scorching Orb</b>, and <b>Mirage Ward</b>.
-    </p>
-  </section>
-
-  <section class="group" data-cat="items">
-    <div class="group-head"><span class="tag">Items &amp; Weapons</span></div>
-    <h2>Orbs rebuilt, blades sharpened</h2>
-
-    <div class="subhead">Orb weapons (Enchanter) — full rework</div>
-    <p class="subnote">Every tier of Orb, from Glass Orb up to Stolen Orb, had its weapon damage zeroed out and its Intelligence bonus raised to make up for it — Orbs now push damage entirely through spells and Intelligence, not weapon hits. Each one's granted basic attack was also swapped from Sparkles to the new Cursed Sparkles.</p>
-    <div class="statrows">
-      <div class="statrow"><div class="name">Glass, Pocket, Crystal, Clay, Amber Orbs</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span></div></div>
-      <div class="statrow"><div class="name">Moonstone Orb</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span><span class="stat">No longer two-handed</span></div></div>
-      <div class="statrow"><div class="name">Ember, Bog Pearl, Mirror, Goblin Trinket, Sunwell Orbs</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span><span class="stat">Int <span class="arrow">up</span></span></div></div>
-      <div class="statrow"><div class="name">Cursed Orb, Shaman Totem Orb, Stolen Orb</div><div class="vals"><span class="stat">Weapon dmg <span class="arrow">→</span> 0</span><span class="stat">Int <span class="arrow">up further</span></span></div></div>
-    </div>
-
-    <div class="subhead">Melee &amp; ranged weapons — retuned</div>
-    <p class="subnote">Several tiered weapons traded a secondary attribute bonus for more raw weapon damage — simpler, less stat-stacky.</p>
-    <div class="statrows">
-      <div class="statrow"><div class="name">Goblin Scimitar<small>lost +1 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">9 →</span> 10</span></div></div>
-      <div class="statrow"><div class="name">Frog Fang Blade<small>lost +1 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">11 →</span> 12</span></div></div>
-      <div class="statrow"><div class="name">Dune Falchion<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">10 →</span> 12</span></div></div>
-      <div class="statrow"><div class="name">Sunfire Arbalest<small>lost +1 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">9 →</span> 11</span></div></div>
-      <div class="statrow"><div class="name">Sunforged Blade<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">12 →</span> 14</span></div></div>
-      <div class="statrow"><div class="name">Shrine Greatsword<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">13 →</span> 15</span></div></div>
-      <div class="statrow"><div class="name">Warren Saber<small>lost +2 Strength</small></div><div class="vals"><span class="stat">Dmg <span class="arrow">15 →</span> 17</span></div></div>
-      <div class="statrow"><div class="name">Rusty Cleaver<small>lost +1 Strength, no damage change</small></div><div class="vals"><span class="stat">No compensation</span></div></div>
-    </div>
-
-    <div class="subhead">New: Academic Boots<span class="pill-new">New</span></div>
-    <p class="subnote">A level-3 boots item (+1 Intelligence, a touch of Resist) that grants Step While Studying — a cheap early card draw for casters.</p>
-  </section>
-
-  <section class="group" data-cat="ui">
-    <div class="group-head"><span class="tag">UI &amp; Quality of Life</span></div>
-    <h2>Seeing your party, seeing the map</h2>
-    <div class="entries">
-      <div class="entry">
-        <div class="lead">Always-on party HUD</div>
-        <div class="body">Your party now shows up on-screen at all times during normal play — who's with you and whether they're mid-fight — without opening the full online panel.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">World map: suggested levels &amp; scrolling</div>
-        <div class="body">Visited tiles on the world map now show a suggested level, and the map itself scrolls to fit the larger world now that Fenwatch is on it.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">Another UI scale &amp; clarity pass</div>
-        <div class="body">A further round of resizing and layout fixes across menus, combat, and the world map for better readability.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">A little more breathing room on turn timers</div>
-        <div class="body">The server's fallback preparation and turn timeouts (the safety net for a connection that drops mid-fight) were nudged up slightly, from 20s/25s to 25s/35s.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="group" data-cat="fix">
-    <div class="group-head"><span class="tag">Bug Fixes</span></div>
-    <h2>Squashed</h2>
-    <div class="entries">
-      <div class="entry">
-        <div class="lead">Players sometimes turned invisible after a fight ended</div>
-        <div class="body">Fixed — you should reliably see everyone again back on the map once combat wraps up.</div>
-      </div>
-      <div class="entry">
-        <div class="lead">A crash when an enemy group looked for its next target</div>
-        <div class="body">Fixed a null-reference that could occur while scanning for enemies on the map.</div>
-      </div>
-    </div>
-  </section>
+    </a>
+  </div>
 
   <footer>
-    That's everything since the last notes. As always — if an enemy's new attitude feels off, or a number lands wrong, say so.
+    ARQUIVADO NO REGISTRO DO SERVIDOR · NIHIL: ORIGINS
   </footer>
 
 </div>

@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Nihil Dispatch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --void:#0a0b0f;
+    --void-2:#0f1016;
+    --surface:#14151c;
+    --ink:#ece7de;
+    --ink-dim:#9791a1;
+    --ink-faint:#615c6a;
+    --arcane:#a487e6;
+    --arcane-soft:#a487e622;
+    --ember:#dd8a56;
+    --ember-soft:#dd8a5622;
+    --line:#26272f;
+  }
+
+  *{box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:'Work Sans',ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    padding:clamp(28px,7vw,72px) 20px 100px;
+  }
+
+  h1,h2,h3{text-wrap:balance;}
+
+  .page{max-width:700px;margin:0 auto;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    text-align:center;
+    padding-bottom:40px;
+    margin-bottom:44px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .sigil{margin:0 auto 22px;width:64px;height:64px;position:relative;display:block;}
+  .sigil svg{width:100%;height:100%;display:block;}
+  .sigil::before{
+    content:"";
+    position:absolute;
+    inset:-30px;
+    background:radial-gradient(circle,var(--arcane-soft) 0%,transparent 70%);
+    animation:breathe 5s ease-in-out infinite;
+    z-index:-1;
+  }
+  @media (prefers-reduced-motion:reduce){.sigil::before{animation:none;}}
+  @keyframes breathe{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:12.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--arcane);
+    margin:0 0 14px;
+  }
+  .title{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:clamp(32px,6vw,46px);
+    letter-spacing:.02em;
+    margin:0 0 12px;
+    color:var(--ink);
+  }
+  .subtitle{
+    color:var(--ink-dim);
+    font-size:15.5px;
+    margin:0 auto;
+    max-width:480px;
+  }
+  .stamp{
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    margin-top:20px;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    letter-spacing:.04em;
+  }
+  .stamp .dot{width:4px;height:4px;border-radius:50%;background:var(--ink-faint);}
+
+  /* ---------- announcement callout ---------- */
+  .callout{
+    border:1px solid var(--line);
+    border-left:2px solid var(--ember);
+    background:linear-gradient(90deg,var(--ember-soft),transparent 60%);
+    padding:18px 22px;
+    border-radius:2px;
+    margin-bottom:52px;
+    font-size:15px;
+    color:var(--ink);
+  }
+  .callout b{color:var(--ember);font-weight:600;}
+
+  /* ---------- sections ---------- */
+  section.category{margin-bottom:52px;}
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .cat-glyph{
+    width:9px;height:9px;
+    flex:none;
+    background:var(--accent,var(--arcane));
+    transform:rotate(45deg);
+  }
+  .cat-head h2{
+    font-family:'Cinzel',serif;
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0;
+  }
+  .cat-head .count{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    margin-left:auto;
+  }
+
+  .entries{display:flex;flex-direction:column;gap:22px;}
+  .entry{
+    padding-left:18px;
+    border-left:1px solid var(--line);
+  }
+  .entry h3{
+    font-size:15.5px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+  }
+  .entry p{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:14.5px;
+    max-width:60ch;
+  }
+  .entry .tags{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap;}
+  .tag{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:10.5px;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- detailed changelists (rework / balance) ---------- */
+  ul.changelist{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+  }
+  ul.changelist li{
+    position:relative;
+    padding-left:15px;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink-dim);
+    max-width:64ch;
+  }
+  ul.changelist li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.55em;
+    width:5px;height:1px;
+    background:var(--ink-faint);
+  }
+  ul.changelist b{color:var(--ink);font-weight:600;}
+  .delta{
+    display:inline-block;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11px;
+    color:var(--accent,var(--arcane));
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:1px 6px;
+    border-radius:3px;
+    margin-left:5px;
+    white-space:nowrap;
+    line-height:1.6;
+  }
+  .subgroup{margin-top:20px;}
+  .subgroup:first-of-type{margin-top:0;}
+  .subgroup-title{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent,var(--arcane));
+    margin:0 0 4px;
+  }
+  .subgroup-note{
+    font-size:13px;
+    color:var(--ink-dim);
+    margin:0 0 10px;
+    max-width:60ch;
+  }
+
+  /* accent per category */
+  .cat-new{--accent:var(--arcane);}
+  .cat-rework{--accent:#e0567a;}
+  .cat-balance{--accent:#d9b25a;}
+  .cat-qol{--accent:#6fbf8f;}
+  .cat-fix{--accent:var(--ember);}
+
+  footer{
+    margin-top:60px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    letter-spacing:.03em;
+  }
+
+  @media (max-width:480px){
+    .entry{padding-left:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="sigil">
+      <svg viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#a487e6" stroke-width="1" opacity="0.5"/>
+        <circle cx="32" cy="32" r="3.2" fill="#a487e6"/>
+        <path d="M32 2 V16 M32 48 V62 M2 32 H16 M48 32 H62" stroke="#a487e6" stroke-width="1" opacity="0.7"/>
+        <path d="M32 32 L50 14 M32 32 L14 50" stroke="#dd8a56" stroke-width="1" opacity="0.6"/>
+      </svg>
+    </div>
+    <p class="eyebrow">The Nihil Dispatch</p>
+    <h1 class="title">Nihil: Origins</h1>
+    <p class="subtitle">Novidades, reformulações de classe e correções desde o último aviso do servidor.</p>
+    <div class="stamp">
+      <span>17–18 SET 2026</span>
+      <span class="dot"></span>
+      <span>23 COMMITS</span>
+      <span class="dot"></span>
+      <span>2 FRENTES</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>O jogo agora tem nome oficial:</b> a partir deste build, o projeto passa a ser chamado <b>Nihil: Origins</b> — na tela de título, no menu e em toda comunicação com os jogadores.
+  </div>
+
+  <section class="category cat-new">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Novidades</h2>
+      <span class="count">04</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Magiconverter e sets de equipamento</h3>
+        <p>Nova moeda — <b style="color:var(--ink)">Magipila</b> — e três conjuntos de equipamento de 5 peças com bônus por combinação. Um novo NPC, o Magiconverter, troca peças de set por magipila e recompensas conforme a quantidade de peças distintas coletadas.</p>
+        <div class="tags"><span class="tag">ECONOMIA</span><span class="tag">NPC</span></div>
+      </div>
+      <div class="entry">
+        <h3>Menu de opções</h3>
+        <p>Resolução de tela (validada contra o monitor) e idioma agora são configuráveis. Acessível pelo menu principal e também em jogo, pela tecla <b style="color:var(--ink)">P</b> ou pela barra de status.</p>
+        <div class="tags"><span class="tag">UI</span></div>
+      </div>
+      <div class="entry">
+        <h3>Português (pt-BR)</h3>
+        <p>Primeira leva de localização: interface, itens, cartas, habilidades, nomes de personagens, mapas, masmorras, NPCs e diálogos de missão traduzidos. Troque o idioma em Opções.</p>
+        <div class="tags"><span class="tag">LOCALIZAÇÃO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Voltar ao menu principal</h3>
+        <p>Novo atalho no menu de opções para sair da partida direto para a tela principal, sem precisar fechar o jogo.</p>
+        <div class="tags"><span class="tag">UI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-rework">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Reformulações de classe</h2>
+      <span class="count">21 CARTAS</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Swordsman — fim do "Slash modificado" permanente</h3>
+        <p>As três posturas não reescrevem mais o comportamento de <b style="color:var(--ink)">Slash</b> enquanto ativas. Cada uma agora concede um bônus único no momento em que é adotada e um bônus separado, recorrente, no início de cada turno seguinte.</p>
+        <div class="subgroup">
+          <p class="subgroup-title">Posturas</p>
+          <ul class="changelist">
+            <li><b>Stance: Aggressive</b> — ao entrar na postura, Slash causa <span class="delta">+25% dano</span> só neste turno; enquanto ativa, compra um <b>Slash</b> do baralho ou descarte no início de cada turno.</li>
+            <li><b>Stance: Swift</b> — custo <span class="delta">1 → 2 AP</span>; ao entrar, ganha <span class="delta">+2 MP</span> só neste turno; enquanto ativa, recebe de graça uma <b>Lunge</b> de uso único no início de cada turno.</li>
+            <li><b>Stance: Tactical</b> — custo <span class="delta">4 → 2 AP</span>; ao entrar, compra <span class="delta">2 cartas</span>; enquanto ativa, ganha <span class="delta">+1 → +2 AP</span> por turno (exceto no turno em que é adotada).</li>
+          </ul>
+        </div>
+        <div class="subgroup">
+          <p class="subgroup-title">Cartas</p>
+          <ul class="changelist">
+            <li><b>Lunge</b> — nova carta: uso único, 2 AP, alcance 3, avança até o alvo e causa <span class="delta">50% Dano de Arma + 50% Agilidade</span>. Só é obtida de graça pela Stance: Swift; não é comprável na árvore.</li>
+            <li><b>En Guarde</b> — redução de dano fixa em <span class="delta">2 → 100% da Agilidade</span>.</li>
+            <li><b>Riposte</b> — contra-ataque ganha <span class="delta">+25% da Agilidade</span> além do dano de arma.</li>
+            <li><b>Spin Slash</b> e <b>Whirling Retreat</b> — o "círculo corpo a corpo" agora inclui as diagonais (8 células, não mais 4).</li>
+            <li><b>Perfect Form</b> — reformulada: em vez de dobrar a antiga modificação permanente de Slash, agora repete uma vez o bônus de entrada da postura ativa (Aggressive +25% dano de novo, Swift +2 MP de novo, Tactical compra 2 cartas de novo).</li>
+            <li><b>Exploit Opening</b> — combo de reembolso de AP atualizado: agora dispara a partir de <b>Disarm</b> (antes citava a extinta "Tactical Slash").</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <h3>Enchanter — passe de 21 cartas</h3>
+        <p>Reformulação ampla focada em dar identidade real a Weaken/Empower e corrigir efeitos que, por bug, não faziam nada.</p>
+        <div class="subgroup">
+          <p class="subgroup-title">Núcleo Weaken</p>
+          <ul class="changelist">
+            <li><b>Weaken</b> — <span class="delta">5%/turno fixo → 4%/stack</span> (até 3 stacks); ganhou <b>detonação</b>: qualquer dano do Enchanter que aplicou a stack consome todas de uma vez, causando <span class="delta">+25% Inteligência por stack</span> adicional.</li>
+            <li><b>Crippling Hex</b> — perda de movimento ao atingir 3 stacks: <span class="delta">1 → 2 MP</span>. Corrigido bug em que essa perda de MP não tinha efeito nenhum.</li>
+            <li><b>Curse Lash</b> — o próprio golpe agora também dispara a detonação de Weaken, removendo as stacks do alvo na hora.</li>
+            <li><b>Arcane Suppression</b> — remover as stacks agora causa <span class="delta">25% Inteligência por stack</span> de dano (antes, apenas removia sem causar dano).</li>
+          </ul>
+        </div>
+        <div class="subgroup">
+          <p class="subgroup-title">Núcleo Empower</p>
+          <ul class="changelist">
+            <li><b>Empower</b> — <span class="delta">5%/turno fixo → 5%/stack</span>; lançar em si mesmo agora concede <span class="delta">10%/stack</span> em vez de 5%.</li>
+            <li><b>Might Infusion</b> — não precisa mais de 3 stacks de Empower já no alvo: concede <span class="delta">+1 AP</span> incondicional no início de <b>cada um dos próximos 2 turnos</b> (antes: pagava uma única vez, e só com 3 stacks).</li>
+            <li><b>Shared Power</b> — transfere 1 stack de Empower para <b>todos os outros aliados</b>, sem limite de distância (antes: no máximo 2 aliados dentro de 3 células).</li>
+            <li><b>Siphon Strength</b> — agora concede <span class="delta">+20% no maior atributo bruto</span> do aliado mais próximo do alvo (Força, Agilidade, Vitalidade, Inteligência ou Precisão), um bônus real que também eleva dano de arma, vida, AP, MP e crítico — não mais apenas 1 stack de Empower.</li>
+            <li><b>Lend Strength</b> — <span class="delta">+2 AP fixo → +1 AP por stack de Empower</span> no alvo.</li>
+            <li><b>Battle Hymn</b> — vira um buff de <span class="delta">+15% de dano fixo para o time todo</span> por 3 turnos, desacoplado do pool de Empower (antes concedia 1 stack de Empower a cada aliado).</li>
+          </ul>
+        </div>
+        <div class="subgroup">
+          <p class="subgroup-title">Barreiras e utilidade</p>
+          <ul class="changelist">
+            <li><b>Barrier Transfer</b> — <span class="delta">5 fixo → 100% da Inteligência</span> em Barreira, nunca mais do que o conjurador realmente tem.</li>
+            <li><b>Siphon Ward</b> — ao roubar a Barreira do alvo, agora ganha também <span class="delta">+25% Inteligência</span> de bônus.</li>
+            <li><b>Keen Edge</b> — chance de crítico que passaria de 100% converte a metade do excedente em <b>dano crítico bônus</b> (até +50%).</li>
+            <li><b>Recall</b> — custo <span class="delta">2 → 1 AP</span>.</li>
+            <li><b>Second Reading</b> — passou a escalar com <span class="delta">+40% Inteligência por carta comprada no turno</span>, sem teto (antes: +50% por reembaralhada na luta, até 3).</li>
+            <li><b>Patience</b> — agora deixa a mão do alvo exceder o limite normal em 1 no próximo turno, em vez de só dobrar o custo de AP de compras bloqueadas.</li>
+            <li><b>Grimoire Ward</b> — <span class="delta">1 fixo por carta (teto = Inteligência) → 50% Inteligência por carta distinta no descarte</span>, sem teto.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-balance">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Balanceamento</h2>
+      <span class="count">10 ITENS/CARTAS</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Combate desarmado</h3>
+        <ul class="changelist">
+          <li><b>Punch</b> — dano <span class="delta">100% → 75%</span> da arma.</li>
+          <li><b>Unarmed</b> (punhos) — Dano de Arma <span class="delta">2 → 0</span>.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Correção: DoT de Precisão</h3>
+        <p><b style="color:var(--ink)">Venom Bolt</b> e <b style="color:var(--ink)">Ember Bolt</b> agora escalam corretamente com Precisão. Antes, sem essa referência, os dois causavam apenas 1 de dano por turno em quem usa Orbe.</p>
+      </div>
+      <div class="entry">
+        <h3>Itens</h3>
+        <ul class="changelist">
+          <li><b>Wooden Buckler</b> — Resistência <span class="delta">1% → 2%</span>, Resistência fixa <span class="delta">0 → 1</span>.</li>
+          <li><b>Tome of Focus</b> — Inteligência <span class="delta">1 → 2</span>.</li>
+          <li><b>Mirror Shard</b> — Inteligência <span class="delta">1 → 3</span> (Precisão +2 sem alteração).</li>
+          <li><b>Sewer Grate Shield</b> — corrigido item que concedia <b>Brace</b> por engano em vez de um segundo <b>Shield Bash</b>; Força <span class="delta">1 → 2</span>.</li>
+          <li><b>Training Crossbow</b> — Dano de Arma <span class="delta">1 → 2</span>.</li>
+          <li><b>Emberweave Orb</b> (set Magiconverter) — Inteligência <span class="delta">5 → 11</span>.</li>
+          <li><b>Emberweave Treads</b> — passa a conceder duas cópias de <b>Step While Studying</b> (compra carta + 1 MP) em vez de <b>Lunge Step</b> (só reposicionamento).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-qol">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Qualidade de vida</h2>
+      <span class="count">02</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Mercado com rolagem e busca</h3>
+        <p>A tela do mercado agora rola por listas longas de itens e permite buscar pelo nome, em vez de exigir paginação manual.</p>
+        <div class="tags"><span class="tag">MERCADO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Nomes no mapa-mundi</h3>
+        <p>Corrigido o tamanho dos rótulos de nome no mapa-mundi, que podiam ser cortados em nomes de local mais longos.</p>
+        <div class="tags"><span class="tag">MAPA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-fix">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Correções</h2>
+      <span class="count">04</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Estabilidade de conexão</h3>
+        <p>Corrigidos problemas na reconexão de jogadores que deixavam a ligação em estado inconsistente após uma queda de sessão.</p>
+        <div class="tags"><span class="tag">REDE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Corrida ao salvar slots de personagem</h3>
+        <p>Salvamentos simultâneos de diferentes slots de personagem podiam corromper o cache do servidor. O acesso ao armazenamento de jogadores agora é serializado por slot.</p>
+        <div class="tags"><span class="tag">SERVIDOR</span></div>
+      </div>
+      <div class="entry">
+        <h3>Sprites de NPC desalinhados</h3>
+        <p>Corrigido o posicionamento vertical de sprites de NPCs em algumas cenas de mapa.</p>
+        <div class="tags"><span class="tag">MAPA</span></div>
+      </div>
+      <div class="entry">
+        <h3>Retoques de tradução</h3>
+        <p>Pequenas correções em textos de itens que ficaram inconsistentes durante a primeira leva de localização.</p>
+        <div class="tags"><span class="tag">LOCALIZAÇÃO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    ARQUIVADO NO REGISTRO DO SERVIDOR · NIHIL: ORIGINS
+  </footer>
+
+</div>
+</body>
+</html>
