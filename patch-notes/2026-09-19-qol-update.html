@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Nihil Dispatch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --void:#0a0b0f;
+    --void-2:#0f1016;
+    --surface:#14151c;
+    --ink:#ece7de;
+    --ink-dim:#9791a1;
+    --ink-faint:#615c6a;
+    --arcane:#a487e6;
+    --arcane-soft:#a487e622;
+    --ember:#dd8a56;
+    --ember-soft:#dd8a5622;
+    --line:#26272f;
+  }
+
+  *{box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:'Work Sans',ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    padding:clamp(28px,7vw,72px) 20px 100px;
+  }
+
+  h1,h2,h3{text-wrap:balance;}
+
+  .page{max-width:700px;margin:0 auto;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    text-align:center;
+    padding-bottom:40px;
+    margin-bottom:44px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .sigil{margin:0 auto 22px;width:64px;height:64px;position:relative;display:block;}
+  .sigil svg{width:100%;height:100%;display:block;}
+  .sigil::before{
+    content:"";
+    position:absolute;
+    inset:-30px;
+    background:radial-gradient(circle,var(--arcane-soft) 0%,transparent 70%);
+    animation:breathe 5s ease-in-out infinite;
+    z-index:-1;
+  }
+  @media (prefers-reduced-motion:reduce){.sigil::before{animation:none;}}
+  @keyframes breathe{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:12.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--arcane);
+    margin:0 0 14px;
+  }
+  .title{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:clamp(32px,6vw,46px);
+    letter-spacing:.02em;
+    margin:0 0 12px;
+    color:var(--ink);
+  }
+  .subtitle{
+    color:var(--ink-dim);
+    font-size:15.5px;
+    margin:0 auto;
+    max-width:480px;
+  }
+  .stamp{
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    margin-top:20px;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    letter-spacing:.04em;
+  }
+  .stamp .dot{width:4px;height:4px;border-radius:50%;background:var(--ink-faint);}
+
+  /* ---------- announcement callout ---------- */
+  .callout{
+    border:1px solid var(--line);
+    border-left:2px solid var(--ember);
+    background:linear-gradient(90deg,var(--ember-soft),transparent 60%);
+    padding:18px 22px;
+    border-radius:2px;
+    margin-bottom:52px;
+    font-size:15px;
+    color:var(--ink);
+  }
+  .callout b{color:var(--ember);font-weight:600;}
+
+  /* ---------- sections ---------- */
+  section.category{margin-bottom:52px;}
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .cat-glyph{
+    width:9px;height:9px;
+    flex:none;
+    background:var(--accent,var(--arcane));
+    transform:rotate(45deg);
+  }
+  .cat-head h2{
+    font-family:'Cinzel',serif;
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0;
+  }
+  .cat-head .count{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    margin-left:auto;
+  }
+
+  .entries{display:flex;flex-direction:column;gap:22px;}
+  .entry{
+    padding-left:18px;
+    border-left:1px solid var(--line);
+  }
+  .entry h3{
+    font-size:15.5px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+  }
+  .entry p{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:14.5px;
+    max-width:60ch;
+  }
+  .entry .tags{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap;}
+  .tag{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:10.5px;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- detailed changelists (rework / balance) ---------- */
+  ul.changelist{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+  }
+  ul.changelist li{
+    position:relative;
+    padding-left:15px;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink-dim);
+    max-width:64ch;
+  }
+  ul.changelist li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.55em;
+    width:5px;height:1px;
+    background:var(--ink-faint);
+  }
+  ul.changelist b{color:var(--ink);font-weight:600;}
+  .delta{
+    display:inline-block;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11px;
+    color:var(--accent,var(--arcane));
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:1px 6px;
+    border-radius:3px;
+    margin-left:5px;
+    white-space:nowrap;
+    line-height:1.6;
+  }
+  .subgroup{margin-top:20px;}
+  .subgroup:first-of-type{margin-top:0;}
+  .subgroup-title{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent,var(--arcane));
+    margin:0 0 4px;
+  }
+  .subgroup-note{
+    font-size:13px;
+    color:var(--ink-dim);
+    margin:0 0 10px;
+    max-width:60ch;
+  }
+
+  /* accent per category */
+  .cat-new{--accent:var(--arcane);}
+  .cat-rework{--accent:#e0567a;}
+  .cat-balance{--accent:#d9b25a;}
+  .cat-qol{--accent:#6fbf8f;}
+  .cat-fix{--accent:var(--ember);}
+
+  footer{
+    margin-top:60px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    letter-spacing:.03em;
+  }
+
+  @media (max-width:480px){
+    .entry{padding-left:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="sigil">
+      <svg viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#a487e6" stroke-width="1" opacity="0.5"/>
+        <circle cx="32" cy="32" r="3.2" fill="#a487e6"/>
+        <path d="M32 2 V16 M32 48 V62 M2 32 H16 M48 32 H62" stroke="#a487e6" stroke-width="1" opacity="0.7"/>
+        <path d="M32 32 L50 14 M32 32 L14 50" stroke="#dd8a56" stroke-width="1" opacity="0.6"/>
+      </svg>
+    </div>
+    <p class="eyebrow">The Nihil Dispatch</p>
+    <h1 class="title">Nihil: Origins</h1>
+    <p class="subtitle">O combate ganha vida: animações, efeitos visuais e uma reformulação completa do Demon Hunter.</p>
+    <div class="stamp">
+      <span>19 SET 2026</span>
+      <span class="dot"></span>
+      <span>16 COMMITS</span>
+      <span class="dot"></span>
+      <span>2 FRENTES</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>O combate agora tem corpo:</b> golpes, dano, projéteis e mortes têm sprites animados dedicados — para as três classes e todos os inimigos do jogo — além de uma nova camada de efeitos visuais (flashes, números flutuantes, câmera tremendo) sobre cada ação.
+  </div>
+
+  <section class="category cat-new">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Novidades</h2>
+      <span class="count">03</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Animações de combate</h3>
+        <p>Todas as 3 classes (com a Forma Demoníaca à parte) e os 21 inimigos do jogo — incluindo os 3 estados de chefe — ganharam quadros animados próprios de golpe, dano recebido e morte, em vez do sprite parado de antes.</p>
+        <div class="tags"><span class="tag">ARTE</span><span class="tag">COMBATE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Efeitos visuais de combate</h3>
+        <p>Flash de acerto, números de dano flutuantes, projéteis (a cor muda pelo tipo de dano da carta), cortes, anéis e explosões de impacto, tremor de câmera nos golpes fortes, chamada de "SUA VEZ" e um floreio ao jogar carta.</p>
+        <div class="tags"><span class="tag">COMBATE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Status visíveis no combate</h3>
+        <p>Passar o mouse sobre qualquer unidade — aliada, inimiga ou você mesmo — agora mostra seus status ativos como selos com pilha e duração restante. O card de status do jogador também exibe essa fileira sempre visível, sem precisar de hover.</p>
+        <div class="tags"><span class="tag">UI</span><span class="tag">LOCALIZAÇÃO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-rework">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Reformulação de classe</h2>
+      <span class="count">DEMON HUNTER</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Demon Hunter — Focus e armadilhas repensados</h3>
+        <p>Focus deixa de ser um passivo que ninguém olhava e vira um <b style="color:var(--ink)">custo de carta</b> de verdade; armadilhas agora custam o descarte de uma carta da mão em vez de Focus. Mudança de protocolo entre cliente e servidor.</p>
+        <ul class="changelist">
+          <li><b>Overwatch</b> — agora tem <span class="delta">2 cargas</span>, cada uma reagindo a um inimigo diferente (nunca o mesmo duas vezes).</li>
+          <li><b>Vault</b> — alcance <span class="delta">→ 3</span>; avança como um Blink, atravessando bloqueios até a célula logo atrás do alvo.</li>
+          <li><b>Patient Hunter</b> — reformulada; a checagem de baralho vazio agora acontece no momento de jogar a carta, não no início do turno seguinte.</li>
+          <li><b>Blinding Flare</b> — reformulada em torno do descarte (8+ cartas no descarte antes da própria jogada) e agora conta como disparo de besta para efeitos de Focus e da Forma Demoníaca.</li>
+          <li><b>Blood Price</b> — reformulada; converte Precisão em AP às custas de vida e Focus.</li>
+          <li><b>Demonic Pact</b> — reformulada dentro do novo sistema de custos.</li>
+          <li><b>Demon Form</b> — vira carta de <b>uso único</b> por luta (não mais um "consumível"), com sprite e animação próprios.</li>
+          <li><b>Conjunto Nightfall</b> — bônus de atributo trocado de Agilidade para Força.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-balance">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Balanceamento</h2>
+      <span class="count">02</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Second Reading (Enchanter)</h3>
+        <ul class="changelist">
+          <li>Escala por carta comprada no turno <span class="delta">40% → 35%</span> da Inteligência.</li>
+          <li>Ao ser conjurada, agora <b>reseta a contagem de compras</b> do turno — antes o bônus acumulava por toda a luta sem limite.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Goblin Leader (Enraged)</h3>
+        <ul class="changelist">
+          <li>Vida máxima <span class="delta">120 → 140</span>.</li>
+          <li>Ganhou Resistência: <span class="delta">+3 fixo</span> e <span class="delta">+10%</span>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-qol">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Qualidade de vida</h2>
+      <span class="count">05</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Comparar equipamento no inventário</h3>
+        <p>Segurando <b style="color:var(--ink)">Shift</b> sobre um item da mochila ou do baú, um segundo painel mostra o que já está equipado naquele slot, lado a lado.</p>
+        <div class="tags"><span class="tag">INVENTÁRIO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Entrar na luta do grupo</h3>
+        <p>Quando um colega de grupo abre uma luta no mesmo mapa, aparece um convite para entrar direto, sem precisar caminhar até a caveira.</p>
+        <div class="tags"><span class="tag">GRUPO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Tooltip de armadilha</h3>
+        <p>Passar o mouse sobre uma célula com armadilha armada agora mostra a carta, o dono e o efeito que ela vai causar.</p>
+        <div class="tags"><span class="tag">COMBATE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Troca parcial de consumíveis</h3>
+        <p>Negociações com outro jogador agora permitem oferecer parte de uma pilha de consumíveis (não só a pilha inteira ou nada).</p>
+        <div class="tags"><span class="tag">MERCADO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Campo de batalha mais limpo</h3>
+        <p>Nome e números de vida flutuando sobre os personagens foram removidos do campo de batalha — a barra já mostra os números, e o hover mostra o resto. Menos poluição visual em cima das novas animações.</p>
+        <div class="tags"><span class="tag">COMBATE</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category cat-fix">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Correções</h2>
+      <span class="count">02</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Textos desatualizados do Enchanter</h3>
+        <p>Corrigidas as descrições de <b style="color:var(--ink)">Curse Lash</b> e <b style="color:var(--ink)">Cursed Sparkles</b>, que ainda citavam um comportamento antigo de Weaken.</p>
+        <div class="tags"><span class="tag">LOCALIZAÇÃO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Botão de debug removido</h3>
+        <p>O botão "Debug Reset" foi removido da tela de atributos — não tinha lugar fora de teste interno.</p>
+        <div class="tags"><span class="tag">UI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    ARQUIVADO NO REGISTRO DO SERVIDOR · NIHIL: ORIGINS
+  </footer>
+
+</div>
+</body>
+</html>
