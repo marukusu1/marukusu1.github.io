@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tactical Deck update</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --void:#0a0b0f;
+    --void-2:#0f1016;
+    --surface:#14151c;
+    --ink:#ece7de;
+    --ink-dim:#9791a1;
+    --ink-faint:#615c6a;
+    --arcane:#a487e6;
+    --arcane-soft:#a487e622;
+    --ember:#dd8a56;
+    --ember-soft:#dd8a5622;
+    --line:#26272f;
+  }
+
+  *{box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:'Work Sans',ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    padding:clamp(28px,7vw,72px) 20px 100px;
+  }
+
+  h1,h2,h3{text-wrap:balance;}
+
+  .page{max-width:700px;margin:0 auto;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    text-align:center;
+    padding-bottom:40px;
+    margin-bottom:44px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .sigil{margin:0 auto 22px;width:64px;height:64px;position:relative;display:block;}
+  .sigil svg{width:100%;height:100%;display:block;}
+  .sigil::before{
+    content:"";
+    position:absolute;
+    inset:-30px;
+    background:radial-gradient(circle,var(--arcane-soft) 0%,transparent 70%);
+    animation:breathe 5s ease-in-out infinite;
+    z-index:-1;
+  }
+  @media (prefers-reduced-motion:reduce){.sigil::before{animation:none;}}
+  @keyframes breathe{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:12.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--arcane);
+    margin:0 0 14px;
+  }
+  .title{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:clamp(32px,6vw,46px);
+    letter-spacing:.02em;
+    margin:0 0 12px;
+    color:var(--ink);
+  }
+  .subtitle{
+    color:var(--ink-dim);
+    font-size:15.5px;
+    margin:0 auto;
+    max-width:480px;
+  }
+  .stamp{
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    margin-top:20px;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    letter-spacing:.04em;
+  }
+  .stamp .dot{width:4px;height:4px;border-radius:50%;background:var(--ink-faint);}
+
+  /* ---------- announcement callout ---------- */
+  .callout{
+    border:1px solid var(--line);
+    border-left:2px solid var(--ember);
+    background:linear-gradient(90deg,var(--ember-soft),transparent 60%);
+    padding:18px 22px;
+    border-radius:2px;
+    margin-bottom:52px;
+    font-size:15px;
+    color:var(--ink);
+  }
+  .callout b{color:var(--ember);font-weight:600;}
+
+  /* ---------- sections ---------- */
+  section.category{margin-bottom:52px;}
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .cat-glyph{
+    width:9px;height:9px;
+    flex:none;
+    background:var(--accent,var(--arcane));
+    transform:rotate(45deg);
+  }
+  .cat-head h2{
+    font-family:'Cinzel',serif;
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0;
+  }
+  .cat-head .count{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    margin-left:auto;
+  }
+
+  .entries{display:flex;flex-direction:column;gap:22px;}
+  .entry{
+    padding-left:18px;
+    border-left:1px solid var(--line);
+  }
+  .entry h3{
+    font-size:15.5px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+  }
+  .entry p{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:14.5px;
+    max-width:60ch;
+  }
+  .entry .tags{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap;}
+  .tag{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:10.5px;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- detailed changelists (rework / balance) ---------- */
+  ul.changelist{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+  }
+  ul.changelist li{
+    position:relative;
+    padding-left:15px;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink-dim);
+    max-width:64ch;
+  }
+  ul.changelist li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.55em;
+    width:5px;height:1px;
+    background:var(--ink-faint);
+  }
+  ul.changelist b{color:var(--ink);font-weight:600;}
+  .delta{
+    display:inline-block;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11px;
+    color:var(--accent,var(--arcane));
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:1px 6px;
+    border-radius:3px;
+    margin-left:5px;
+    white-space:nowrap;
+    line-height:1.6;
+  }
+  .subgroup{margin-top:20px;}
+  .subgroup:first-of-type{margin-top:0;}
+  .subgroup-title{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent,var(--arcane));
+    margin:0 0 4px;
+  }
+  .subgroup-note{
+    font-size:13px;
+    color:var(--ink-dim);
+    margin:0 0 10px;
+    max-width:60ch;
+  }
+
+  /* accent per category */
+  .cat-new{--accent:var(--arcane);}
+  .cat-rework{--accent:#e0567a;}
+  .cat-balance{--accent:#d9b25a;}
+  .cat-qol{--accent:#6fbf8f;}
+  .cat-fix{--accent:var(--ember);}
+
+  footer{
+    margin-top:60px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    letter-spacing:.03em;
+  }
+
+  @media (max-width:480px){
+    .entry{padding-left:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="sigil">
+      <svg viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#a487e6" stroke-width="1" opacity="0.5"/>
+        <circle cx="32" cy="32" r="3.2" fill="#a487e6"/>
+        <path d="M32 2 V16 M32 48 V62 M2 32 H16 M48 32 H62" stroke="#a487e6" stroke-width="1" opacity="0.7"/>
+        <path d="M32 32 L50 14 M32 32 L14 50" stroke="#dd8a56" stroke-width="1" opacity="0.6"/>
+      </svg>
+    </div>
+    <p class="eyebrow">Atualização Tática</p>
+    <h1 class="title">Nihil: Origins</h1>
+    <p class="subtitle">Ler o desafio, montar o baralho, lutar. Terreno no tabuleiro, chefes com roteiro, passivas em todo equipamento e um endgame que vira escada.</p>
+    <div class="stamp">
+      <span>20 SET – 01 OUT 2026</span>
+      <span class="dot"></span>
+      <span>64 COMMITS</span>
+      <span class="dot"></span>
+      <span>CLIENTE + SERVIDOR</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>Nova direção:</b> o jogo assume de vez o foco de <b>tático + jogo de cartas</b>. Os encontros agora mostram o que vem pela frente (formação, traços dos inimigos, tipo de terreno) para você ajustar o baralho a cada desafio — e a reserva, os presets e o respec gratuito existem para isso. <b>Atenção:</b> com a reforma de atributos, os pontos distribuídos foram <b>devolvidos</b> — redistribua ao entrar.
+  </div>
+
+  <!-- ======================= NOVIDADES: COMBATE ======================= -->
+  <section class="category cat-new">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Novidades — Combate</h2>
+      <span class="count">06</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Terreno no tabuleiro</h3>
+        <p>As lutas agora acontecem em 22 mapas de combate próprios de cada bioma (e arenas fixas nas salas de chefe), com paredes e células especiais: lama, espinhos, brasa, miasma e pontos elevados. Ataques de alcance 2+ precisam de <b style="color:var(--ink)">linha de visão</b>, empurrar alguém contra uma parede causa dano de colisão, e o caminho custa PM conforme o chão.</p>
+        <div class="tags"><span class="tag">COMBATE</span><span class="tag">TÁTICA</span></div>
+      </div>
+      <div class="entry">
+        <h3>Traços inimigos, elites e formações</h3>
+        <p>15 traços dão a cada inimigo uma fraqueza ou regra a ser respondida. Grupos seguem 27 formações nomeadas, podem trazer <b style="color:var(--ink)">elites</b>, e a prévia do encontro mostra a formação, os traços (com a dica de como responder) e o tipo de chão antes de você entrar.</p>
+        <div class="tags"><span class="tag">COMBATE</span><span class="tag">INIMIGOS</span></div>
+      </div>
+      <div class="entry">
+        <h3>Escala por grupo</h3>
+        <p>Grupos de 3 inimigos não derrubam mais um personagem solo do mesmo nível em 2–3 rodadas: o tamanho e a força dos encontros se ajustam ao número de inimigos e ao tamanho do seu grupo.</p>
+        <div class="tags"><span class="tag">COMBATE</span><span class="tag">GRUPO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Novas mecânicas de carta</h3>
+        <p>18 cartas novas espalhadas por itens de cada classe, com cinco mecânicas inéditas:</p>
+        <ul class="changelist">
+          <li><b>Invocações controláveis</b> — você comanda a criatura com o baralho dela (até 2 por jogador; morrem junto com o dono).</li>
+          <li><b>Troca de posição</b> — cartas que trocam você de lugar com aliados ou inimigos.</li>
+          <li><b>Golpes atrasados</b> — o efeito cai no turno seguinte, numa célula marcada.</li>
+          <li><b>Sono</b> — o alvo perde o turno; qualquer dano o acorda.</li>
+          <li><b>Cartas conjuradas</b> — cartas de uso único criadas no meio da luta (passe o mouse para ver a carta dentro da carta).</li>
+        </ul>
+        <div class="tags"><span class="tag">CARTAS</span></div>
+      </div>
+      <div class="entry">
+        <h3>Sete tipos de dano</h3>
+        <p>Os tipos de dano agora são <b style="color:var(--ink)">Físico, Luz, Trevas, Fogo, Água, Terra e Ar</b> (Veneno virou Terra; Arcano virou Ar ou Luz). Cada um tem cor própria no texto da carta, nos números de dano e nos projéteis.</p>
+        <div class="tags"><span class="tag">CARTAS</span><span class="tag">VISUAL</span></div>
+      </div>
+      <div class="entry">
+        <h3>Reserva e presets de baralho</h3>
+        <p>Até 6 cartas de <b style="color:var(--ink)">reserva</b>, consultáveis num painel durante a luta, e 3 presets de baralho salvos para trocar de montagem num clique.</p>
+        <div class="tags"><span class="tag">BARALHO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= NOVIDADES: ITENS ======================= -->
+  <section class="category cat-new">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Novidades — Itens e progressão</h2>
+      <span class="count">06</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Passivas em todo equipamento</h3>
+        <p>Todo item vestível agora carrega uma passiva — 12 maiores (as únicas nos Lendários) e 15 menores, como Carrasco, Sede de Sangue, Última Resistência e Espinhos. Equipar mais peças com a <b style="color:var(--ink)">mesma passiva</b> sobe o nível dela: 1 peça = nível I, 2 = II, 3 = III. Quatro passivas fortes demais (Mão Vazia, Terceira Carta, Persistente e Pronto para a Luta) param no nível II. As armas iniciais de treino ficam sem passiva.</p>
+        <div class="tags"><span class="tag">EQUIPAMENTO</span><span class="tag">BUILD</span></div>
+      </div>
+      <div class="entry">
+        <h3>Pedras de Eco e o Gravador</h3>
+        <p>Inimigos podem soltar <b style="color:var(--ink)">Pedras de Eco</b> — rachada, normal ou polida — que carregam uma carta. No novo NPC <b style="color:var(--ink)">Gravador</b> (um em cada cidade), grave a pedra num espaço de carta do item: o espaço passa a dar 1, 2 ou 3 cópias daquela carta. Também é possível remover (a pedra volta) e fundir 3 pedras em 1 de qualidade maior.</p>
+        <div class="tags"><span class="tag">EQUIPAMENTO</span><span class="tag">NPC</span></div>
+      </div>
+      <div class="entry">
+        <h3>Refino de itens (I / II / III)</h3>
+        <p>No Gravador, funda cópias idênticas de um item para refiná-lo: cada nível dá <b style="color:var(--ink)">+1 no atributo principal</b> da peça e um sufixo I, II ou III no nome.</p>
+        <div class="tags"><span class="tag">EQUIPAMENTO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Livros de Habilidade</h3>
+        <p>Drops raríssimos de chefe que trazem um <b style="color:var(--ink)">ramo novo de 9 habilidades</b> e substituem um ramo da sua classe (os pontos gastos voltam). Dois livros nesta versão: <b style="color:var(--ink)">Ritos do Brejo</b> (Inteligência) e <b style="color:var(--ink)">Luta de Arena</b> (corpo a corpo). Chefes também soltam páginas do livro, e é possível esquecer o livro — ele é perdido.</p>
+        <div class="tags"><span class="tag">HABILIDADES</span><span class="tag">LOOT</span></div>
+      </div>
+      <div class="entry">
+        <h3>Respec</h3>
+        <p>Redistribuir atributos agora é possível: a primeira vez é gratuita, depois custa 15 de ouro × nível.</p>
+        <div class="tags"><span class="tag">ATRIBUTOS</span></div>
+      </div>
+      <div class="entry">
+        <h3>Equipamento por classe</h3>
+        <p>29 itens novos (e 18 itens das cartas novas) para que cada classe tenha uma peça do seu atributo principal em cada slot e faixa de nível, mais 3 cartas genéricas de equipamento (Recuar, Faca de Arremesso, Olho Aguçado). As cartas de equipamento também deixaram de ser obrigatórias no baralho.</p>
+        <div class="tags"><span class="tag">EQUIPAMENTO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= NOVIDADES: MUNDO ======================= -->
+  <section class="category cat-new">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Novidades — Mundo e endgame</h2>
+      <span class="count">06</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Três novas masmorras</h3>
+        <p><b style="color:var(--ink)">Santuário Submerso</b> (pântano, Homem-Sapo Mestre das Lâminas, nv. 23), <b style="color:var(--ink)">A Arena de Luta</b> (covil dos ratos, Homem-Rato Campeão da Arena, nv. 29) e <b style="color:var(--ink)">Tumba das Lâminas Gêmeas</b> (deserto, Réptil Senhor das Lâminas, nv. 35).</p>
+        <div class="tags"><span class="tag">MASMORRA</span><span class="tag">CHEFE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Escada de dificuldade e placar da temporada</h3>
+        <p>Cada masmorra tem <b style="color:var(--ink)">6 níveis</b> (Normal + 1 a 5), desbloqueados um a um. Cada nível dá +15% de vida e +10% de dano aos inimigos, mais magipilas e chance de lendário, e soma <b style="color:var(--ink)">afixos semanais</b> (Venenoso, Espinhos, Blindado…). O placar da temporada ranqueia os grupos pelo menor número de rodadas.</p>
+        <div class="tags"><span class="tag">ENDGAME</span><span class="tag">PLACAR</span></div>
+      </div>
+      <div class="entry">
+        <h3>Missões reescritas</h3>
+        <p>A cadeia inteira foi refeita: 60 missões e 19 NPCs espalhados pelos mapas, com objetivos de derrotar grupos e conversar. Acabou o vai-e-volta até a cidade — o trajeto médio entre receber, cumprir e entregar caiu de 4,4 mapas para menos de 1.</p>
+        <div class="tags"><span class="tag">MISSÕES</span></div>
+      </div>
+      <div class="entry">
+        <h3>Montarias</h3>
+        <p>Seu personagem vira a montaria no mapa. A primeira é a <b style="color:var(--ink)">mula</b> (missão do Cavalariço Bram, em Millhaven, ~25% mais rápida que a pé); mais cinco — cavalo, sapo do brejo, lagarto das dunas, rato do covil e corcel de gosma — vêm de missões nas outras cidades. Slot de montaria no inventário, botão Montar/Desmontar e atalho <b style="color:var(--ink)">R</b>.</p>
+        <div class="tags"><span class="tag">MUNDO</span></div>
+      </div>
+      <div class="entry">
+        <h3>Viagem rápida com tarifa</h3>
+        <p>A viagem rápida agora custa <b style="color:var(--ink)">40 de ouro por mapa de distância</b>, mostrado no rodapé do mapa-múndi (em vermelho quando falta ouro). Caminhar ficou mais lento — e a montaria compensa.</p>
+        <div class="tags"><span class="tag">MUNDO</span><span class="tag">ECONOMIA</span></div>
+      </div>
+      <div class="entry">
+        <h3>Áudio</h3>
+        <p>Efeitos sonoros de combate (golpes, dano e morte por família de inimigo, vozes próprias para chefes, status, armadilhas) e de interface, mapa, economia e progressão. Novo controle de volume de efeitos nas Opções.</p>
+        <div class="tags"><span class="tag">ÁUDIO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= REFORMULAÇÕES ======================= -->
+  <section class="category cat-rework">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Reformulações</h2>
+      <span class="count">03</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Atributos</h3>
+        <p>Atributos divididos em <b style="color:var(--ink)">Primários</b> (Força, Inteligência, Agilidade), <b style="color:var(--ink)">Secundários</b> (Vida, Crítico, Velocidade) e <b style="color:var(--ink)">Especiais</b> (PA e PM).</p>
+        <ul class="changelist">
+          <li>Armas não têm mais "dano": dão pontos do atributo primário da sua família. Toda Precisão virou Agilidade.</li>
+          <li>Inteligência não dá mais PA e Agilidade não dá mais PM — os pontos de PA/PM se desbloqueiam nos níveis <span class="delta">10 / 20 / 30</span>.</li>
+          <li>Cada carta mostra o atributo que usa (FORÇA / AGILIDADE / INTELIGÊNCIA). O dano agora é <b>exatamente</b> o que o texto diz: "100% da sua Força" com 3 de Força causa 3.</li>
+          <li><b>Resistência saiu</b> de equipamentos, atributos e monstros — existe só como efeito de carta (guardas, escudos).</li>
+          <li>Os pontos distribuídos antes da reforma foram <b>reembolsados</b>.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Chefes com roteiro</h3>
+        <p>Os cinco chefes deixaram de ser checagem de atributo: agora <b style="color:var(--ink)">anunciam golpes</b> um turno antes (saia da área marcada para que errem), mudam de fase por vida e têm passivas visíveis como status.</p>
+        <ul class="changelist">
+          <li><b>Princesa Gosma</b> — barreira real enquanto houver gosma aliada viva, grito que abre ninhos, devora aliadas a 50%.</li>
+          <li><b>Líder Goblin</b> — chega com 2 arqueiros, marca um alvo para o bando e anuncia um golpe em linha; Enfurecido corre contra o relógio e executa abaixo de 50%.</li>
+          <li><b>Mestre das Lâminas</b> — sequência fixa de varredura, estocada e guarda espelhada.</li>
+          <li><b>Campeão da Arena</b> — guarda alterna por turno, soco carregado que o deixa sem fôlego, sino a cada 4º turno.</li>
+          <li><b>Senhor das Lâminas</b> — divide-se em dois a 50%; matar um enfurece o outro.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Ícones de recurso nas cartas</h3>
+        <p>Custos de PA, PM, Foco e vida aparecem como ícones nas cartas, nos tooltips e no cartão de status. A passiva do item ganhou uma caixa própria no tooltip, com nome, nível e o que vestir para subir.</p>
+        <div class="tags"><span class="tag">UI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= BALANCEAMENTO ======================= -->
+  <section class="category cat-balance">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Balanceamento</h2>
+      <span class="count">05</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Vida dos personagens</h3>
+        <ul class="changelist">
+          <li>Crescimento de vida agora é linear: <span class="delta">+5 por nível</span> para todas as classes.</li>
+          <li>Swordsman: vida base <span class="delta">18 → 20</span>.</li>
+          <li>Chefes tardios ganharam ~60% de vida; quatro inimigos tardios causam menos dano.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Cartas</h3>
+        <ul class="changelist">
+          <li><b>Disarm</b> — custo <span class="delta">3 → 2 PA</span>.</li>
+          <li><b>Spin Slash</b> — custo <span class="delta">5 → 4 PA</span>.</li>
+          <li><b>Bladelord Storm</b> — custo <span class="delta">3 → 4 PA</span>.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Demon Hunter</h3>
+        <ul class="changelist">
+          <li>PM máximo <span class="delta">4 → 3</span>.</li>
+          <li>Atributos iniciais: Agilidade 2 e Velocidade 2 (sem Crítico).</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Equipamentos e conjuntos</h3>
+        <ul class="changelist">
+          <li>Peças fora da linha do Demon Hunter trocaram Agilidade por <b>Velocidade</b>; botas redistribuídas para que cada classe tenha as suas.</li>
+          <li><b>Fúria Sanguinária</b> (conjunto) — de <span class="delta">+PA no turno</span> para <span class="delta">+% de dano enquanto ferido</span>.</li>
+          <li>Valores das passivas Mão Vazia, Terceira Carta, Persistente e Pronto para a Luta reduzidos (nível máximo II).</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <h3>Tempo de turno e preparação</h3>
+        <ul class="changelist">
+          <li>Tempo por turno <span class="delta">35 s → 60 s</span>.</li>
+          <li>Fase de preparação <span class="delta">25 s → 60 s</span>, para montar o baralho com calma.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= QoL ======================= -->
+  <section class="category cat-qol">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Qualidade de vida</h2>
+      <span class="count">05</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Reconexão</h3>
+        <p>Caiu a conexão? Volte em até <b style="color:var(--ink)">90 segundos</b> e retome a luta, a masmorra e o grupo de onde parou. O jogo tenta reconectar sozinho, e jogadores ausentes por 30 minutos são desconectados.</p>
+        <div class="tags"><span class="tag">SERVIDOR</span></div>
+      </div>
+      <div class="entry">
+        <h3>Trocar de personagem</h3>
+        <p>Novo botão nas Opções para voltar à lista de personagens sem precisar sair da conta.</p>
+        <div class="tags"><span class="tag">UI</span></div>
+      </div>
+      <div class="entry">
+        <h3>Masmorras pela porta</h3>
+        <p>A porta da masmorra agora abre um painel com a escada de níveis, o chefe e o placar; a entrada é feita por ele.</p>
+        <div class="tags"><span class="tag">MASMORRA</span><span class="tag">UI</span></div>
+      </div>
+      <div class="entry">
+        <h3>Arte nova por todo lado</h3>
+        <p>45 NPCs com sprite próprio, ícones para as 122 habilidades e para os itens, retratos de classe (seleção, combate, chefes), arte de capa, prédios novos em Fenwatch e no Oásis, sprites de armadilha e ícones de status.</p>
+        <div class="tags"><span class="tag">ARTE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Política de privacidade</h3>
+        <p>No primeiro login, uma tela apresenta a política de privacidade. Estatísticas anônimas de jogo ajudam a balancear o jogo e podem ser desligadas a qualquer momento nas Opções.</p>
+        <div class="tags"><span class="tag">CONTA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FIXES ======================= -->
+  <section class="category cat-fix">
+    <div class="cat-head">
+      <span class="cat-glyph"></span>
+      <h2>Correções</h2>
+      <span class="count">04</span>
+    </div>
+    <div class="entries">
+      <div class="entry">
+        <h3>Dano dobrado no início</h3>
+        <p>Um Swordsman recém-criado causava 6 de dano com Slash em vez dos 3 que o texto prometia. O dano agora segue o percentual da carta.</p>
+        <div class="tags"><span class="tag">COMBATE</span></div>
+      </div>
+      <div class="entry">
+        <h3>Equipamento ignorado no servidor</h3>
+        <p>Lutas no servidor não aplicavam parte dos atributos de equipamento do jogador.</p>
+        <div class="tags"><span class="tag">SERVIDOR</span></div>
+      </div>
+      <div class="entry">
+        <h3>Erros críticos do servidor</h3>
+        <p>Corrigidas falhas que podiam derrubar a sessão quando um efeito de terreno disparava, e um travamento ao fechar conexões meio abertas.</p>
+        <div class="tags"><span class="tag">SERVIDOR</span></div>
+      </div>
+      <div class="entry">
+        <h3>Janelas de confirmação</h3>
+        <p>Pop-ups de confirmação agora seguem o tema visual do jogo em vez do padrão do sistema.</p>
+        <div class="tags"><span class="tag">UI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    ARQUIVADO NO REGISTRO DO SERVIDOR · NIHIL: ORIGINS
+  </footer>
+
+</div>
+</body>
+</html>
